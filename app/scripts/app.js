@@ -102,7 +102,7 @@
             //production stuffs
             $compileProvider.debugInfoEnabled(false);
             $logProvider.debugEnabled(true);
-            console.log("fgh");
+
 
             SCConfigurationProvider.configureClient('ext');
         }

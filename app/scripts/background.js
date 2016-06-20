@@ -4,6 +4,7 @@ chrome.runtime.onInstalled.addListener(function (details) {
   //console.log('previousVersion', details.previousVersion);
 });
 
+
 /**
  * Notification show only one if we don't change the priority
  * http://stackoverflow.com/questions/26350747/chrome-notifications-update-or-create/26358154#26358154

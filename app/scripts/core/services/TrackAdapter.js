@@ -46,6 +46,7 @@
                 normalizedTrack.viewCount = track.statistics ? track.statistics.viewCount : 0;
                 normalizedTrack.origin = ORIGIN_YOUTUBE;
                 normalizedTrack.originalUrl = 'https://www.youtube.com/watch?v=' + track.id + '&source=soundcloudify';
+                console.log(  normalizedTrack.originalUrl);
             } else {
                 normalizedTrack.id = track.id;
                 normalizedTrack.title = track.title;
@@ -67,6 +68,7 @@
 
 
         function adaptMultiple(tracks, origin) {
+            console.log("Then here");
             return _.filter(_.map(tracks, function(track) {
                 if (track) {
                     return adapt(track, origin);

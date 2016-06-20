@@ -4,7 +4,7 @@
     angular.module('soundcloudify.core')
         .service('PlaylistImporter', PlaylistImporter);
 
-    function PlaylistImporter($rootScope, $log, $q, $http, YOUTUBE_KEY, TrackAdapter){
+    function PlaylistImporter($rootScope, $log, $q, $http, YOUTUBE_KEY, YOUTUBE_TOKEN, TrackAdapter){
 
         return {
             fetchPlaylist: fetchPlaylist,
@@ -43,33 +43,34 @@
                     id: playlistId
                 };
 
-                $http({
-                    url: 'https://www.googleapis.com/youtube/v3/playlists',
-                    method: 'GET',
-                    params: params,
-                }).success(function(result) {
 
-                    if (!result || !result.items || !result.items.length) {
+
+                    $http({
+                        url: 'https://www.googleapis.com/youtube/v3/playlists?access_token='+YOUTUBE_TOKEN,
+                        method: 'GET',
+                        params: params,
+                    }).success(function(result) {
+
+                        if (!result || !result.items || !result.items.length) {
+                            reject();
+                            return;
+                        }
+
+                        console.log(result);
+
+                        var playlistName = result.items[0].snippet.title,
+                            resolvedPlaylistId = result.items[0].id;
+
+                        resolve({
+                            id: resolvedPlaylistId,
+                            name: playlistName
+                        });
+
+                    }).error(function(reason) {
+                        console.log(reason);
                         reject();
-                        return;
-                    }
-
-                  console.log(result);
-
-                    var playlistName = result.items[0].snippet.title,
-                        resolvedPlaylistId = result.items[0].id;
-
-                    resolve({
-                        id: resolvedPlaylistId,
-                        name: playlistName
                     });
-
-                }).error(function() {
-                    reject();
                 });
-            });
-
-
         }
 
         function fetchPlaylistItems(playlistId, nextPageToken, allItems) {
@@ -92,12 +93,13 @@
                     pageToken: nextPageToken || ''
                 };
 
+
                 $http({
-                    url: 'https://www.googleapis.com/youtube/v3/playlistItems',
+                    url: 'https://www.googleapis.com/youtube/v3/playlistItems?access_token='+YOUTUBE_TOKEN,
                     method: 'GET',
                     params: playlistItemsRequestParams,
                 }).success(function(result) {
-
+                    console.log(result);
                     if (!result || !result.items || !result.items.length) {
                         resolve([]);
                     }
@@ -117,13 +119,14 @@
                             });
                         }
                     });
-
+                    console.log("Kay here");
                     resolve({
                         items: TrackAdapter.adaptMultiple(playlistItems, 'yt'),
                         nextPageToken: result.nextPageToken
                     });
 
-                }).error(function() {
+                }).error(function(reason) {
+                    console.log(reason);
                     reject();
                 });
             }).then(function(data) {
@@ -133,9 +136,9 @@
                 if (data.nextPageToken) {
                     return fetchPlaylistItems(playlistId, data.nextPageToken, allItems);
                 }
-
                 return allItems;
             });
+
         }
     }
 }(angular));

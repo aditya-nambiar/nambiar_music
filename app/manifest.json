@@ -1,5 +1,5 @@
 {
-    "name": "UpNext Music Player",
+    "name": "Nambiar Music Player",
     "version": "1.2.7",
     "manifest_version": 2,
     "description": "__MSG_appDescription__",
@@ -17,7 +17,7 @@
             "19": "images/icon-19.png",
             "38": "images/icon-38.png"
         },
-        "default_title": "UpNext",
+        "default_title": "NambiarMusic",
         "default_popup": "popup.html"
     },
     "options_page": "options.html",
@@ -78,9 +78,9 @@
         "http://suggestqueries.google.com/*"
     ],
     "oauth2": {
-        "client_id": "393554771612-pgq8aevpbcd33qrdd3veaqg0d2jvqqfv.apps.googleusercontent.com",
+        "client_id": "705172984202-jte2jt1d23jb5baklsbm0cdfm50hikms.apps.googleusercontent.com",
         "scopes": [
-            "https://www.googleapis.com/auth/drive"
+            "https://www.googleapis.com/auth/youtube"
         ]
     },
     "web_accessible_resources": [

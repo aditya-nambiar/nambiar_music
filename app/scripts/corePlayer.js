@@ -237,11 +237,6 @@
             GATracker.trackPlayer('toggle repeat', this.state.repeat === 1 ? 'all' : this.state.repeat === 2 ? 'one' : 'none');
         };
 
-        this.downloadMP3 = function(url){
-          console.log(url);
-        }
-
-
         this.toggleShuffle = function() {
             this.state.shuffle = !this.state.shuffle;
           $log.log("Fdsfds");

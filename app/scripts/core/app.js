@@ -56,5 +56,16 @@
     core.value('CLIENT_ID', '2cbdf16421586bfd411305bc03f86e6c');
 
     //YouTube API key
-    core.value('YOUTUBE_KEY', 'AIzaSyDGbUJxAkFnaJqlTD4NwDmzWxXAk55gFh4');
+    core.value('YOUTUBE_KEY', 'AIzaSyB8yEqVE4JL2EEZukrVHVzNOLyj80FrwaY');
+    chrome.identity.getAuthToken({
+        interactive: true
+    }, function(token) {
+        console.log(token);
+        if (chrome.runtime.lastError) {
+            alert(chrome.runtime.lastError.message);
+            return;
+        }
+        core.value('YOUTUBE_TOKEN', token);
+
+    });
 }());
