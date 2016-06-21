@@ -57,15 +57,5 @@
 
     //YouTube API key
     core.value('YOUTUBE_KEY', 'AIzaSyB8yEqVE4JL2EEZukrVHVzNOLyj80FrwaY');
-    chrome.identity.getAuthToken({
-        interactive: true
-    }, function(token) {
-        console.log(token);
-        if (chrome.runtime.lastError) {
-            alert(chrome.runtime.lastError.message);
-            return;
-        }
-        core.value('YOUTUBE_TOKEN', token);
 
-    });
 }());

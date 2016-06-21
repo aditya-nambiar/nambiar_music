@@ -4,7 +4,9 @@
     angular.module('soundcloudify.core')
         .service('PlaylistImporter', PlaylistImporter);
 
-    function PlaylistImporter($rootScope, $log, $q, $http, YOUTUBE_KEY, YOUTUBE_TOKEN, TrackAdapter){
+    var token_needed_urg = null;
+
+    function PlaylistImporter($rootScope, $log, $q, $http, YOUTUBE_KEY, TrackAdapter){
 
         return {
             fetchPlaylist: fetchPlaylist,
@@ -43,19 +45,25 @@
                     id: playlistId
                 };
 
-
-
+                chrome.identity.getAuthToken({
+                    interactive: true
+                }, function(token) {
+                    console.log(token);
+                    if (chrome.runtime.lastError) {
+                        alert(chrome.runtime.lastError.message);
+                        return;
+                    }
                     $http({
-                        url: 'https://www.googleapis.com/youtube/v3/playlists?access_token='+YOUTUBE_TOKEN,
+                        url: 'https://www.googleapis.com/youtube/v3/playlists?access_token='+token,
                         method: 'GET',
                         params: params,
                     }).success(function(result) {
-
+                        console.log("HERE");
                         if (!result || !result.items || !result.items.length) {
                             reject();
                             return;
                         }
-
+                        token_needed_urg = token;
                         console.log(result);
 
                         var playlistName = result.items[0].snippet.title,
@@ -70,6 +78,11 @@
                         console.log(reason);
                         reject();
                     });
+
+                });
+
+
+
                 });
         }
 
@@ -95,7 +108,7 @@
 
 
                 $http({
-                    url: 'https://www.googleapis.com/youtube/v3/playlistItems?access_token='+YOUTUBE_TOKEN,
+                    url: 'https://www.googleapis.com/youtube/v3/playlistItems?access_token='+token_needed_urg,
                     method: 'GET',
                     params: playlistItemsRequestParams,
                 }).success(function(result) {

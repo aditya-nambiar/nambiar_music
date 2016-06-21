@@ -80,7 +80,8 @@
     "oauth2": {
         "client_id": "705172984202-jte2jt1d23jb5baklsbm0cdfm50hikms.apps.googleusercontent.com",
         "scopes": [
-            "https://www.googleapis.com/auth/youtube"
+            "https://www.googleapis.com/auth/youtube",
+            "https://www.googleapis.com/auth/activity"
         ]
     },
     "web_accessible_resources": [

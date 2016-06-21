@@ -17,6 +17,7 @@
         if (vm.playlistIndex >= 0) {
             vm.listcontext = 'playlist';
             vm.playlist = PlaylistService.getPlaylist(vm.playlistIndex);
+            console.log(vm.playlist);
             vm.playlistTracks = _.filter(vm.playlist.tracks, function(track) {
                 return !track.deleted;
             });
