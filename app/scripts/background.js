@@ -444,8 +444,7 @@ Player.prototype = {
      * Check if we should we send the scrobbling request
      */
     shouldScrobble: function(currentTime) {
-
-        return currentTime > (150) &&
+        return currentTime > (120) &&
             !this.scrobbling &&
             !this.state.scrobbled &&
             (this.state.currentTrack.lastFmTrack || this.state.currentTrack.manualTrack);
