@@ -132,7 +132,6 @@
                             });
                         }
                     });
-                    console.log("Kay here");
                     resolve({
                         items: TrackAdapter.adaptMultiple(playlistItems, 'yt'),
                         nextPageToken: result.nextPageToken

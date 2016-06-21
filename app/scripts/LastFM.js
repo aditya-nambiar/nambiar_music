@@ -105,8 +105,8 @@
     window.LastFM = (function(){
 
         var API_URL = 'https://ws.audioscrobbler.com/2.0/';
-        var API_KEY = '270d7aec2d7de22c88d90f36c66c9a1a';
-        var API_SECRET = 'c8a7d4cbfba61e6b777220878bfa8cc1';
+        var API_KEY = '5afc053cbf7d8781999608798ba0089c';
+        var API_SECRET = '4d15e0b267c99376d0a11e6f1496aa3f';
         
         var sessionKey = localStorage.getItem('lastfm.sessionKey');
 
@@ -141,7 +141,7 @@
                 console.log('LastFM: no sessionKey');
                 return;
             }
-
+            console.log(trackInfo);
             var params = {
                 method: 'track.updatenowplaying',
                 track: trackInfo.track,
@@ -159,6 +159,7 @@
                 console.log('LastFM: no sessionKey');
                 return;
             }
+            console.log(trackInfo);
 
             var params = {
                 method: 'track.scrobble',

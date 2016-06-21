@@ -24,6 +24,7 @@
         }
 
         function init(){
+
             chrome.contextMenus.removeAll();
             backgroundPage = chrome.extension.getBackgroundPage();
 

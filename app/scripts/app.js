@@ -108,7 +108,9 @@
         }
     );
 
-    extension.run(function($rootScope, GATracker, $location, MigrationService, PlaylistService, StarService, UserService, SyncService) {
+
+
+    extension.run(function($rootScope, $interval,GATracker, $location, MigrationService, PlaylistService, StarService, UserService, SyncService) {
         $rootScope.$on('$stateChangeSuccess', function() {
             GATracker.trackPageView($location.path());
         });
@@ -122,10 +124,13 @@
         SyncService.init();
 
         MigrationService.migrate();
+
+
     });
 
     angular.element(document).ready(function() {
         setTimeout(function() { angular.bootstrap(document, ['upnext']); }, 100);
+
     });
 
 }());

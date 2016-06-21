@@ -13,6 +13,7 @@
         vm.loading = true;
         vm.tracks = [];
 
+
         $scope.$on('starredList.ready', function() {
             if (vm.tracks) {
                 vm.tracks = TrackAdapter.decorateStar(vm.tracks);

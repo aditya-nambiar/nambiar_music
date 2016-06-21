@@ -13,7 +13,7 @@
     }
     catch (err){ /*ignore*/ }
 
-    soundCloudify.service('CorePlayer', function($rootScope, $window, $log, $mdToast, Messaging, NowPlaying, CLIENT_ID, GATracker, LastFMAuthentication, SCConfiguration) {
+    soundCloudify.service('CorePlayer', function($rootScope,$window, $log, $mdToast, Messaging, NowPlaying, CLIENT_ID, GATracker, LastFMAuthentication, SCConfiguration) {
 
         function debounce(fn, delay) {
             var timer = null;
@@ -25,8 +25,6 @@
                 }, delay);
             };
         }
-
-
 
 
         var self = this;
@@ -254,13 +252,20 @@
             var self = this;
 
             if (!LastFMAuthentication.isAuth()) {
+                console.log("HERe bro");
                 LastFMAuthentication.auth(function() {
                     self.state.scrobbleEnabled = true;
                     NowPlaying.saveState(self.state);
                     GATracker.trackPlayer('toggle scrobble', this.state.scrobbleEnabled ? 'on' : 'off');
                 });
             } else {
+
                 self.state.scrobbleEnabled = !self.state.scrobbleEnabled;
+                if( self.state.scrobbleEnabled){
+                    $rootScope.scrobble_color = "green";
+                } else {
+                    $rootScope.scrobble_color = "red";
+                }
                 NowPlaying.saveState(self.state);
                 GATracker.trackPlayer('toggle scrobble', this.state.scrobbleEnabled ? 'on' : 'off');
             }

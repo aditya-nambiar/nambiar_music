@@ -8,8 +8,8 @@
     function LastFMAuthentication($http, $q, Messaging, SCConfiguration){
 
         var API_URL = 'https://ws.audioscrobbler.com/2.0/',
-            API_KEY = '270d7aec2d7de22c88d90f36c66c9a1a',
-            API_SECRET = 'c8a7d4cbfba61e6b777220878bfa8cc1';
+            API_KEY = '5afc053cbf7d8781999608798ba0089c',
+            API_SECRET = '4d15e0b267c99376d0a11e6f1496aa3f';
 
         var _sessionKey, _token;
 
@@ -48,7 +48,7 @@
                         console.log('session key: ' + data.session.key);
                         _sessionKey = data.session.key;
                         _token = '';
-
+                        console.log("Success");
                         saveSessionKey({sessionKey: data.session.key, token: ''});
 
                         Messaging.sendLastFmAuthenticationMessage();
@@ -57,6 +57,7 @@
                           onAuthenticationSuccess.apply();
                         }
                     } else {
+
                         if (data.error === 4) { //Invalid authentication token supplied
                             _requestToken();
                         } else if (data.error === 14) { //This token has not been authorized
@@ -73,6 +74,7 @@
         }
 
         function isAuth() {
+            console.log(_sessionKey);
             return !!_sessionKey;
         }
 

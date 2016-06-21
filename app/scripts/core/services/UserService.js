@@ -15,7 +15,9 @@
             getUser: getUser
         };
 
+
         function init() {
+
             chrome.identity.getProfileUserInfo(function(info) {
                 user.id = info.id;
                 user.email = info.email;

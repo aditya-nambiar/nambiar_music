@@ -1,9 +1,10 @@
 'use strict';
 
 chrome.runtime.onInstalled.addListener(function (details) {
-  //console.log('previousVersion', details.previousVersion);
+    //console.log('previousVersion', details.previousVersion);
 });
 
+console.log("here");
 
 /**
  * Notification show only one if we don't change the priority
@@ -11,30 +12,31 @@ chrome.runtime.onInstalled.addListener(function (details) {
  */
 var Utils = {
     createOrUpdateNotification: function(id, options, callback) {
+        console.log("here");
 
-      var views = chrome.extension.getViews({ type: "popup" });
+        var views = chrome.extension.getViews({ type: "popup" });
 
-      //dont show notification if popup window is open
-      if (views.length) return;
+        //dont show notification if popup window is open
+        if (views.length) return;
 
-      // Try to lower priority to minimal "shown" priority
-      chrome.notifications.update(id, {priority: 0}, function(existed) {
-        if(existed) {
-          // console.log("notification existed, update priority");
-          var targetPriority = options.priority || 0;
-          options.priority = 1;
-          // Update with higher priority
-          chrome.notifications.update(id, options, function() {
-            // console.log("notification shown");
-            // console.log(options);
-            callback(true);
-          });
-        } else {
-          chrome.notifications.create(id, options, function() {
-            callback(false); // Created
-          });
-        }
-      });
+        // Try to lower priority to minimal "shown" priority
+        chrome.notifications.update(id, {priority: 0}, function(existed) {
+            if(existed) {
+                // console.log("notification existed, update priority");
+                var targetPriority = options.priority || 0;
+                options.priority = 1;
+                // Update with higher priority
+                chrome.notifications.update(id, options, function() {
+                    // console.log("notification shown");
+                    // console.log(options);
+                    callback(true);
+                });
+            } else {
+                chrome.notifications.create(id, options, function() {
+                    callback(false); // Created
+                });
+            }
+        });
     },
     random: function(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
@@ -44,7 +46,7 @@ var Utils = {
 var CLIENT_ID = '2cbdf16421586bfd411305bc03f86e6c';
 var ORIGIN_YOUTUBE = 'yt';
 var ORIGIN_SOUNDCLOUD = 'sc';
-
+console.log("This is called");
 var DEFAULT_STATE = {
     currentTrack: false,
     currentIndex: 0,
@@ -58,6 +60,7 @@ var DEFAULT_STATE = {
     scrobbled: false,
     lastFmInvalid: false
 };
+console.log("here");
 
 
 var currentPort;
@@ -205,6 +208,7 @@ Player.prototype = {
     constructor: Player,
 
     init: function() {
+        console.log("here");
 
         SCIndexedDB.openDb();
 
@@ -228,6 +232,7 @@ Player.prototype = {
     },
 
     next: function() {
+        console.log("here");
 
         var self = this, nextIndex;
 
@@ -385,6 +390,7 @@ Player.prototype = {
      */
     scrobble: function(isManual) {
 
+        console.log("Trying to send scrobble");
         this.scrobbling = true;
 
         var self = this, track, artist;
@@ -428,7 +434,7 @@ Player.prototype = {
                 }});
             }
 
-        }, function() {
+        }, function(reason) {
             if (!currentPort) return;
             currentPort.postMessage({message: 'lastfm.scrobbleError'});
         });
@@ -438,10 +444,11 @@ Player.prototype = {
      * Check if we should we send the scrobbling request
      */
     shouldScrobble: function(currentTime) {
-        return currentTime > (this.configuration.scrobbleDuration || 30) &&
-                !this.scrobbling &&
-                !this.state.scrobbled &&
-                (this.state.currentTrack.lastFmTrack || this.state.currentTrack.manualTrack);
+
+        return currentTime > (150) &&
+            !this.scrobbling &&
+            !this.state.scrobbled &&
+            (this.state.currentTrack.lastFmTrack || this.state.currentTrack.manualTrack);
     },
 
     /**
@@ -593,28 +600,25 @@ function onYouTubeIframeAPIReady() {
         urls: [iframeUrlPattern]
     }, ['blocking', 'requestHeaders']);
 
-
     youtubePlayer.player = new YT.Player('player', {
-            height: '390',
-            width: '640',
-            videoId: 'J1Ol6M0d9sg',
-            events: {
-                'onReady': onPlayerReady,
-                'onStateChange': onPlayerStateChange,
-                'onError': onPlayerError
-            }
-        });
+        height: '390',
+        width: '640',
+        videoId: 'J1Ol6M0d9sg',
+        events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange,
+            'onError': onPlayerError
+        }
+    });
 }
 
 function onPlayerReady(event) {
-  youtubePlayer.playerReady = true;
+    youtubePlayer.playerReady = true;
 }
 
 var youtubeProgressTimer;
 function onPlayerStateChange(event) {
-
     clearTimeout(youtubeProgressTimer);
-
     switch(event.data) {
         case YT.PlayerState.PLAYING:
             youtubeProgressTimer = setInterval(function() {
@@ -713,8 +717,8 @@ chrome.commands.onCommand.addListener(function(command) {
 //GOOGLE ANALYTICS
 //===========================
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
 ga('create', 'UA-61308350-1', 'auto');
