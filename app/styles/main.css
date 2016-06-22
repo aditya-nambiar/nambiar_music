@@ -6,6 +6,8 @@
  */
 html {
   max-height: 448px;
+  min-width: 740px;
+
 }
 
 .overlay {
@@ -141,8 +143,8 @@ body#soundcloudify {
 
 #player {
   position: absolute;
-  width: 220px;
-  height: 448px;
+  width: 280px;
+  height: 500px;
   max-height: 448px;
   background-color: #1C1C1F;
   overflow: hidden;
@@ -150,7 +152,7 @@ body#soundcloudify {
 
   #player .artwork {
     position: relative;
-    width: 220px;
+    width: 280px;
     height: 220px;
   }
 
@@ -266,7 +268,7 @@ body#soundcloudify {
 
 #discovery {
   width: 100%;
-  margin-left: 220px;
+  margin-left: 280px;
   height: 448px;
   overflow: hidden;
   position: relative;
@@ -284,7 +286,7 @@ body#soundcloudify {
     color: #bbb;
   }
 
-md-sidenav.now-playing { width: 440px; min-width: 440px; max-width: 440px;}
+md-sidenav.now-playing { width: 500px; min-width: 500px; max-width: 500px;}
 md-icon.control-hide-nowplaying {width: 15px; height: 15px;}
 
 .md-button.toggled { background-color: #ccc; color: orange; }
@@ -587,7 +589,7 @@ track-list > div {
 
 #singleton-playlist-menu {
   position: fixed;
-  width: 175px;
+  width: 230px;
   overflow-y: scroll;
   z-index: 100;
   display: none;

@@ -13,7 +13,7 @@
     }
     catch (err){ /*ignore*/ }
 
-    soundCloudify.service('CorePlayer', function($rootScope,$window, $log, $mdToast, Messaging, NowPlaying, CLIENT_ID, GATracker, LastFMAuthentication, SCConfiguration) {
+    soundCloudify.service('CorePlayer', function($rootScope,$window, $log, $mdToast, Messaging, NowPlaying, CLIENT_ID, GATracker,StarService, LastFMAuthentication, SCConfiguration) {
 
         function debounce(fn, delay) {
             var timer = null;
@@ -237,7 +237,6 @@
 
         this.toggleShuffle = function() {
             this.state.shuffle = !this.state.shuffle;
-          $log.log("Fdsfds");
             NowPlaying.saveState(this.state);
           if(this.state.shuffle){
             $rootScope.shuffle_color = "green";
@@ -245,6 +244,12 @@
             $rootScope.shuffle_color = "red";
           }
             GATracker.trackPlayer('toggle shuffle', this.state.shuffle ? 'on' : 'off');
+        };
+
+
+        this.displayLyrics = function() {
+
+
         };
 
         this.toggleScrobble = function() {

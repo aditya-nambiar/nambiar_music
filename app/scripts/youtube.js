@@ -955,7 +955,7 @@ if (!YT.loading) {
         W.call(this, a);
         this.defaults.title = "video player";
         this.defaults.videoId = "";
-        this.defaults.width = 640;
+        this.defaults.width = 720;
         this.defaults.height = 360
     }
     u(sb, W);
@@ -1110,7 +1110,7 @@ if (!YT.loading) {
         W.call(this, a);
         this.defaults.host = "https://www.youtube.com";
         this.defaults.title = "upload widget";
-        this.defaults.width = 640;
+        this.defaults.width = 720;
         this.defaults.height = .67 * S(this, "width")
     }
     u(yb, W);
