@@ -57,6 +57,7 @@
             }
         };
 
+
         /*
          * Clear the current list
          * Add all tracks to the list
@@ -220,16 +221,11 @@
         this.toggleRepeat = function() {
             if (this.state.repeat === 0) {
                 this.state.repeat = 1; // repeat all
-              $rootScope.repeat_color = "green";
-
             } else if (this.state.repeat === 1) {
                 this.state.repeat = 2; // repeat one
-              $rootScope.repeat_color = "green";
 
             } else {
                 this.state.repeat = 0; // no repeat
-              $rootScope.repeat_color = "red";
-
             }
             NowPlaying.saveState(this.state);
             GATracker.trackPlayer('toggle repeat', this.state.repeat === 1 ? 'all' : this.state.repeat === 2 ? 'one' : 'none');
@@ -238,17 +234,16 @@
         this.toggleShuffle = function() {
             this.state.shuffle = !this.state.shuffle;
             NowPlaying.saveState(this.state);
-          if(this.state.shuffle){
-            $rootScope.shuffle_color = "green";
-          }else{
-            $rootScope.shuffle_color = "red";
-          }
             GATracker.trackPlayer('toggle shuffle', this.state.shuffle ? 'on' : 'off');
         };
 
+        function popitup(url,windowName) {
+            newwindow=window.open(url,windowName,'height=200,width=150');
+            if (window.focus) {newwindow.focus()}
+            return false;
+        }
 
         this.displayLyrics = function() {
-
 
         };
 
