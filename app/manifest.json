@@ -75,7 +75,14 @@
         "*://*.ytimg.com/*",
         "*://*.sndcdn.com/*",
         "http://api.getsoundcloudify.com/*",
-        "http://suggestqueries.google.com/*"
+        "http://suggestqueries.google.com/*",
+        "*://www.azlyrics.com/*",
+        "*://search.azlyrics.com/*",
+        "*://www.leoslyrics.com/*",
+        "*://www.lyrics.com/*",
+        "*://lyrics.wikia.com/*",
+        "*://m.lyricsmode.com/*",
+        "*://m.metrolyrics.com/*"
     ],
     "oauth2": {
         "client_id": "705172984202-jte2jt1d23jb5baklsbm0cdfm50hikms.apps.googleusercontent.com",

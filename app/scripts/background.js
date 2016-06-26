@@ -203,6 +203,46 @@ var Player = function(soundcloudPlayer, youtubePlayer) {
     this.init();
 };
 
+var cleanUpTrack = function(track){
+    if(track == null || track == "")
+        return "";
+
+    var n = track.indexOf("ft.");
+    if( n != -1) {
+        track = track.substring(0, n);
+    }
+    n = track.indexOf("(");
+
+    if( n != -1){
+        track = track.substring(0,n)
+    }
+    n = track.indexOf("|");
+
+    if( n != -1){
+        track = track.substring(0,n)
+    }
+
+    n = track.indexOf("[");
+
+    if( n != -1){
+        track = track.substring(0,n)
+    }
+
+    return track;
+}
+
+var cleanUpArtist = function(artist){
+    if(artist == null || artist == "")
+        return ""
+    var n = artist.indexOf(",");
+
+    if(n != -1){
+        artist = artist.substring(0,n);
+    }
+
+    return artist
+}
+
 Player.prototype = {
 
     constructor: Player,
@@ -395,8 +435,14 @@ Player.prototype = {
 
         var self = this, track, artist;
 
-        track = self.state.currentTrack.lastFmTrack || self.state.currentTrack.manualTrack;
-        artist = self.state.currentTrack.lastFmArtirst || self.state.currentTrack.manualArtist;
+        track = cleanUpTrack(self.state.currentTrack.lastFmTrack || self.state.currentTrack.manualTrack);
+        artist = cleanUpArtist(self.state.currentTrack.lastFmArtirst || self.state.currentTrack.manualArtist);
+
+        if(typeof artist == "undefined" || track == ""){
+            var arr = this.state.currentTrack.title.split("-");
+            artist = cleanUpArtist(arr[0]).trim();
+            track = cleanUpTrack(arr[1]).trim();
+        }
 
         if (!track || !artist) {
             this.scrobbling = false;
@@ -459,11 +505,22 @@ Player.prototype = {
 
         if (self.state.scrobbleEnabled) {
 
-            if(self.state.currentTrack.lastFmTrack || self.state.currentTrack.manualTrack) {
+
+            var track = cleanUpTrack(self.state.currentTrack.lastFmTrack || self.state.currentTrack.manualTrack);
+            var artist = cleanUpArtist(self.state.currentTrack.lastFmArtirst || self.state.currentTrack.manualArtist);
+
+            if(typeof artist == "undefined" || track == ""){
+                var arr = this.state.currentTrack.title.split("-");
+                artist = cleanUpArtist(arr[0]).trim();
+                track = cleanUpTrack(arr[1]).trim();
+            }
+
+
+            if(track != "") {
 
                 window.LastFM.updateNowPlaying({
-                    track: self.state.currentTrack.lastFmTrack || self.state.currentTrack.manualTrack,
-                    artist: self.state.currentTrack.lastFmArtirst || self.state.currentTrack.manualArtist
+                    track: track,
+                    artist: artist
                 });
 
             } else {

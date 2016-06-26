@@ -237,14 +237,88 @@
             GATracker.trackPlayer('toggle shuffle', this.state.shuffle ? 'on' : 'off');
         };
 
-        function popitup(url,windowName) {
-            newwindow=window.open(url,windowName,'height=200,width=150');
-            if (window.focus) {newwindow.focus()}
-            return false;
+        var cleanUpTrack = function(track){
+            if(track == null || track == "")
+                return "";
+
+            var n = track.indexOf("ft.");
+            if( n != -1) {
+                track = track.substring(0, n);
+            }
+            n = track.indexOf("(");
+
+            if( n != -1){
+                track = track.substring(0,n)
+            }
+            n = track.indexOf("|");
+
+            if( n != -1){
+                track = track.substring(0,n)
+            }
+
+            n = track.indexOf("[");
+
+            if( n != -1){
+                track = track.substring(0,n)
+            }
+
+            return track;
+        }
+
+        var cleanUpArtist = function(artist){
+            if(artist == null || artist == "")
+                return ""
+            var n = artist.indexOf(",");
+
+            if(n != -1){
+                artist = artist.substring(0,n);
+            }
+
+            return artist
         }
 
         this.displayLyrics = function() {
+            var l = require("../../node_modules/lyric-get");
+            var artist = cleanUpArtist(this.state.currentTrack.lastFmArtirst || this.state.currentTrack.manualArtist).trim();
+            var cleanTrack = cleanUpTrack(this.state.currentTrack.lastFmTrack || this.state.currentTrack.manualTrack).trim();
+            var title = this.state.currentTrack.title
 
+            if(typeof artist == "undefined" || cleanTrack == ""){
+                var arr = this.state.currentTrack.title.split("-");
+                artist = cleanUpArtist(arr[0]).trim();
+                cleanTrack = cleanUpTrack(arr[1]).trim();
+                console.log(arr);
+            }
+
+            console.log(artist);
+            console.log(cleanTrack);
+            var w = window.open('',"Popup", "location=1,status=1,scrollbars=1, resizable=1, directories=1, toolbar=1, titlebar=1, width=400, height=600");
+
+
+            l.get(artist, cleanTrack, function(err, res){
+                if(err){
+                    w.document.write('<html>' +
+                        '<body>' +
+                        '<div>'  +
+                          err    +
+                        '</div>' +
+                        '</body>' +
+                        '</html>');
+
+                }
+                else{
+                    var str = res
+                    str = $('<div>').text(str).html();
+                    w.document.write('<html>' +
+                        '<body>' +
+                            '<h3>'+ title + '</h3> <br>' +
+                        '<pre style = "font-style: italic;     font-size: 150%;">'  +
+                        str    +
+                        '</pre>' +
+                        '</body>' +
+                        '</html>');
+                }
+            });
         };
 
         this.toggleScrobble = function() {
